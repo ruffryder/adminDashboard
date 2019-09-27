@@ -22,7 +22,6 @@ class CoursesPage extends Component {
     return (
       <>
         <h2>Courses</h2>
-        <h3>Add Course</h3>
 
         <CourseList courses={this.props.courses} />
       </>
@@ -32,6 +31,7 @@ class CoursesPage extends Component {
 
 CoursesPage.propTypes = {
   courses: PropTypes.array.isRequired,
+  authors: PropTypes.array.isRequired,
   loadCourses: PropTypes.func.isRequired,
   loadAuthors: PropTypes.func.isRequired
 };
