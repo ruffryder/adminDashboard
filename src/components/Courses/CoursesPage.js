@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import CourseList from "./CourseList";
 import { Redirect } from "react-router-dom";
 import Spinner from "../Common/Spinner";
+import { toast } from "react-toastify";
 
 class CoursesPage extends Component {
   state = {
@@ -23,6 +24,15 @@ class CoursesPage extends Component {
       });
     }
   }
+
+  handleDeleteCourse = async course => {
+    toast.success("Course deleted!");
+    try {
+      await this.props.deleteCourse(course);
+    } catch (error) {
+      toast.error("Delete failed. " + error.message, { autoClose: false });
+    }
+  };
   render() {
     return (
       <>
@@ -39,7 +49,10 @@ class CoursesPage extends Component {
             >
               Add Course
             </button>
-            <CourseList courses={this.props.courses} />
+            <CourseList
+              onDeleteClick={this.handleDeleteCourse}
+              courses={this.props.courses}
+            />
           </>
         )}
       </>
@@ -51,6 +64,7 @@ CoursesPage.propTypes = {
   courses: PropTypes.array.isRequired,
   authors: PropTypes.array.isRequired,
   loadCourses: PropTypes.func.isRequired,
+  deleteCourse: PropTypes.func.isRequired,
   loadAuthors: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired
 };
@@ -76,7 +90,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = dispatch => {
   return {
     loadCourses: () => dispatch(courseActions.loadCourses()),
-    loadAuthors: () => dispatch(authorActions.loadAuthors())
+    loadAuthors: () => dispatch(authorActions.loadAuthors()),
+    deleteCourse: course => dispatch(courseActions.deleteCourse(course))
   };
 };
 
