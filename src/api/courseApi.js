@@ -1,5 +1,6 @@
 import { handleResponse, handleError } from "./apiUtils";
 const baseUrl = process.env.API_URL + "/courses/";
+const fetch = require("node-fetch");
 
 export function getCourses() {
   return fetch(baseUrl)
